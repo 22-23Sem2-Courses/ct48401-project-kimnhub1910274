@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'ui/screen.dart';
+import 'ui/home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,23 +13,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Furniture',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSwatch(
-                    //primarySwatch: Colors.white,
-                    )
-                .copyWith(
-          primary: Color.fromRGBO(224, 139, 139, 1),
-        )
-            //primarySwatch: Colors.blue,
-            ),
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Furniture'),
-            centerTitle: true,
+      title: 'Furniture',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+                  //primarySwatch: Colors.white,
+                  )
+              .copyWith(
+        primary: Color.fromRGBO(224, 139, 139, 1),
+      )
+          //primarySwatch: Colors.blue,
           ),
-        ));
+      home: const SafeArea(child: HomeScreen()),
+    );
   }
 }
 
