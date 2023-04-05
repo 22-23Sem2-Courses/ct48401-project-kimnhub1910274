@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myproject_app/ui/home/home_banner.dart';
+import 'package:myproject_app/ui/home/home_content.dart';
 // import '/ui/cart/cart_screen.dart';
 import '/ui/products/products_manager.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 import '../shared/app_drawer.dart';
 // import 'products_grid.dart';
 // import '../cart/cart_manager.dart';
@@ -19,13 +21,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _showOnLyFavorites = ValueNotifier<bool>(false);
-  //late Future<void> _fetchProducts;
+  late Future<void> _fetchProducts;
   late TabController _tabController;
-  // var _showOnlyFavorites = false;
+  var _showOnlyFavorites = false;
   @override
   void initState() {
     super.initState();
-    // _fetchProducts = context.read<ProductsManager>().fetchProducts();
+    _fetchProducts = context.read<ProductsManager>().fetchProducts();
     _tabController = TabController(length: 4, vsync: this);
   }
 
@@ -82,41 +84,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
       ),
       drawer: const AppDrawer(),
-      // body: FutureBuilder(
-      //  // future: _fetchProducts,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       return ValueListenableBuilder<bool>(
-      //           valueListenable: _showOnLyFavorites,
-      //           builder: (context, onlyFavorites, child) {
-      //             // return ProductsGrid(onlyFavorites);
-      //             return TabBarView(
-      //               controller: _tabController,
-      //               children: [
-      //                 // Center(
-      //                 //   child: ProductsGrid(onlyFavorites),
-      //                 // ),
-      //                 // Center(
-      //                 //   child: Text("It's rainy here"),
-      //                 // ),
-      //                 // Center(
-      //                 //   child: Text("It's sunny here"),
-      //                 // ),
-      //                 // Center(
-      //                 //   child: Text("It's sunny herer"),
-      //                 // ),
+      body: FutureBuilder(
+        future: _fetchProducts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return ValueListenableBuilder<bool>(
+                valueListenable: _showOnLyFavorites,
+                builder: (context, onlyFavorites, child) {
+                  // return ProductsGrid(onlyFavorites);
+                  return TabBarView(
+                    controller: _tabController,
+                    children: const <Widget>[
+                      Center(
+                        child: HomeContent(),
+                        // child: ProductsGrid(onlyFavorites),
+                      ),
+                      Center(
+                        child: Text("It's rainy here"),
+                      ),
+                      Center(
+                        child: Text("It's sunny here"),
+                      ),
+                      Center(
+                        child: Text("It's sunny here"),
+                      ),
 
-      //                 // ProductsGrid(onlyFavorites),
-      //                 Text('data')
-      //               ],
-      //             );
-      //           });
-      //     }
-      //     return const Center(
-      //       child: CircularProgressIndicator(),
-      //     );
-      //   },
-      // ),
+                      //  ProductsGrid(onlyFavorites),
+                      Text('data')
+                    ],
+                  );
+                });
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
 
