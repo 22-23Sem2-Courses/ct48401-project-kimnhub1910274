@@ -2,15 +2,14 @@
 
 Học kỳ 2, Năm học 2022-2023
 
-**MSSV 1** : 
+**MSSV 1** : B1910273
+**Họ tên SV 1**:Huỳnh Yến Nhung
 
-**Họ tên SV 1**:
+**MSSV 2**: B1910274
 
-**MSSV 2**:
+**Họ tên SV 2**: Lê Thị Kim Như
 
-**Họ tên SV 2**:
+**Lớp học phần**: CT48401
 
-**Lớp học phần**:
-
-**Tên dự án**:
+**Tên dự án**: Website bán nội thất
 
