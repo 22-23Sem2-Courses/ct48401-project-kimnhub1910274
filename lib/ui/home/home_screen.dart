@@ -33,28 +33,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyShop'),
+        title: const Text(
+          'Furniture',
+          style: TextStyle(fontSize: 25),
+        ),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           indicatorWeight: 2,
           tabs: const <Widget>[
             Tab(
-              text: 'Home',
-            ),
+                child: Text(
+              "Home",
+              style: TextStyle(
+                fontFamily: "BarlowBold",
+                fontSize: 18,
+              ),
+            )),
             Tab(
-              text: 'Desk',
-            ),
+                child: Text(
+              "Desk",
+              style: TextStyle(
+                fontFamily: "BarlowBold",
+                fontSize: 18,
+              ),
+            )),
             Tab(
-              text: 'Sofa',
-            ),
+                child: Text(
+              "Bed",
+              style: TextStyle(
+                fontFamily: "BarlowBold",
+                fontSize: 18,
+              ),
+            )),
             Tab(
-              text: 'Bed',
-            ),
+                child: Text(
+              "Sofa",
+              style: TextStyle(
+                fontFamily: "BarlowBold",
+                fontSize: 18,
+              ),
+            )),
           ],
         ),
         actions: <Widget>[
-          buildProductFilterMenu(),
+          // buildProductFilterMenu(),
           buildShoppingCartIcon(),
         ],
       ),
@@ -107,31 +130,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ));
   }
 
-  Widget buildProductFilterMenu() {
-    return PopupMenuButton(
-      onSelected: (FilterOptions selectedValue) {
-        //  setState(() {
-        if (selectedValue == FilterOptions.favorites) {
-          _showOnLyFavorites.value = true;
-        } else {
-          _showOnLyFavorites.value = false;
-        }
-      },
-      //   );
-      // },
-      icon: const Icon(
-        Icons.more_vert,
-      ),
-      itemBuilder: (ctx) => [
-        const PopupMenuItem(
-          value: FilterOptions.favorites,
-          child: Text('Only Favorite'),
-        ),
-        const PopupMenuItem(
-          value: FilterOptions.all,
-          child: Text('Show All'),
-        )
-      ],
-    );
-  }
+  // Widget buildProductFilterMenu() {
+  //   return PopupMenuButton(
+  //     onSelected: (FilterOptions selectedValue) {
+  //       //  setState(() {
+  //       if (selectedValue == FilterOptions.favorites) {
+  //         _showOnLyFavorites.value = true;
+  //       } else {
+  //         _showOnLyFavorites.value = false;
+  //       }
+  //     },
+  //     //   );
+  //     // },
+  //     icon: const Icon(
+  //       Icons.more_vert,
+  //     ),
+  //     itemBuilder: (ctx) => [
+  //       const PopupMenuItem(
+  //         value: FilterOptions.favorites,
+  //         child: Text('Only Favorite'),
+  //       ),
+  //       const PopupMenuItem(
+  //         value: FilterOptions.all,
+  //         child: Text('Show All'),
+  //       )
+  //     ],
+  //   );
+  // }
 }

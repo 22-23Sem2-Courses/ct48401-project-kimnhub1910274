@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'ui/screen.dart';
 import 'ui/home/home_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load();
   runApp(const MyApp());
 }
 
@@ -12,19 +15,36 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Furniture',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(
-                  //primarySwatch: Colors.white,
-                  )
-              .copyWith(
-        primary: Color.fromRGBO(224, 139, 139, 1),
-      )
-          //primarySwatch: Colors.blue,
-          ),
-      home: const SafeArea(child: HomeScreen()),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthManager(),
+        )
+      ],
+      child: Consumer<AuthManager>(
+        builder: (ctx, authManager, child) {
+          return MaterialApp(
+            title: 'Furniture',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                colorScheme: ColorScheme.fromSwatch(
+                        //primarySwatch: Colors.white,
+                        )
+                    .copyWith(
+              primary: Color.fromRGBO(224, 139, 139, 1),
+            )
+                //primarySwatch: Colors.blue,
+                ),
+            home: authManager.isAuth
+                ? const HomeScreen()
+                : FutureBuilder(
+                    future: authManager.tryAutoLogin(),
+                    builder: (ctx, snapshot) {
+                      return const AuthScreen();
+                    }),
+          );
+        },
+      ),
     );
   }
 }

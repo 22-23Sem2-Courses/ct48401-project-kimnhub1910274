@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 // import '../orders/orders_screen.dart';
 // import '../products/user_products_screen.dart';
-// import '../auth/auth_manager.dart';
+import '../auth/auth_manager.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -30,7 +30,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.edit),
             title: const Text('Manager Products'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/user-products');
+              Navigator.of(context).pushReplacementNamed('/admin-products');
             },
           ),
           const Divider(),
@@ -49,7 +49,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context)
                 ..pop()
                 ..pushReplacementNamed('/');
-              // context.read<AuthManager>().logout();
+              context.read<AuthManager>().logout();
             },
           ),
         ],
