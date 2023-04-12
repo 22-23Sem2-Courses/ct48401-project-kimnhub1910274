@@ -17,27 +17,99 @@ class ProductGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Card(
-        child: GridTile(
-          footer: buildGridFooterBar(context),
-          child: GestureDetector(
-            onTap: () {
-              // Navigator.of(context).pushNamed(
-              //   ProductDetailScreen.routeName,
-              //   arguments: product.id,
-              // );
-            },
-            child: Image.network(
-              product.imageUrl,
-              fit: BoxFit.cover,
+    return Card(
+      elevation: 5,
+      clipBehavior: Clip.antiAlias,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              child: GestureDetector(
+                onTap: () {
+                  // Navigator.of(context).pushNamed(
+                  //   ProductDetailScreen.routeName,
+                  //   arguments: product.id,
+                  // );
+                },
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.cover,
+                  height: 110,
+                ),
+              ),
             ),
-          ),
+            ListTile(
+              title: Text(product.title),
+              subtitle: Text(
+                '\$${product.price}',
+                style: TextStyle(color: Colors.black.withOpacity(0.6)),
+              ),
+              trailing: ValueListenableBuilder<bool>(
+                valueListenable: product.isFavoriteListenable,
+                builder: (ctx, isFavorite, child) {
+                  return IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                    ),
+                    color: Theme.of(context).colorScheme.secondary,
+                    onPressed: () {
+                      // product.isFavorite = !isFavorite;
+                      ctx.read<ProductsManager>().toggleFavoriteStatus(product);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
+  //   return ClipRRect(
+  //     borderRadius: BorderRadius.circular(10),
+  //     child: Card(
+  //       child: SingleChildScrollView(
+  //           child: Column(
+  //         children: [
+  //           Container(
+  //             child: GestureDetector(
+  //               onTap: () {
+  //                 // Navigator.of(context).pushNamed(
+  //                 //   ProductDetailScreen.routeName,
+  //                 //   arguments: product.id,
+  //                 // );
+  //               },
+  //               child: Image.network(
+  //                 product.imageUrl,
+  //                 fit: BoxFit.cover,
+  //               ),
+  //             ),
+  //           ),
+  //           ListTile(
+  //             title: Text(product.title),
+  //             trailing: ValueListenableBuilder<bool>(
+  //               valueListenable: product.isFavoriteListenable,
+  //               builder: (ctx, isFavorite, child) {
+  //                 return IconButton(
+  //                   icon: Icon(
+  //                     isFavorite ? Icons.favorite : Icons.favorite_border,
+  //                   ),
+  //                   color: Theme.of(context).colorScheme.secondary,
+  //                   onPressed: () {
+  //                     // product.isFavorite = !isFavorite;
+  //                     ctx.read<ProductsManager>().toggleFavoriteStatus(product);
+  //                   },
+  //                 );
+  //               },
+  //             ),
+  //           )
+  //         ],
+  //       )),
+  //     ),
+  //   );
+  // }
 
   Widget buildGridFooterBar(BuildContext context) {
     return GridTileBar(
