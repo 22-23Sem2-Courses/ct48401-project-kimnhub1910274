@@ -6,6 +6,7 @@ import 'package:myproject_app/ui/products/admin_products_screen.dart';
 import 'package:myproject_app/ui/products/products_manager.dart';
 import '../home/home_banner.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../products/product_item.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({
@@ -20,7 +21,19 @@ class HomeContent extends StatelessWidget {
           const Flexible(
             child: HomeBanner(),
           ),
-          Flexible(
+          ListTile(
+            title: const Text(
+              'Product Sales',
+              style: TextStyle(fontSize: 20),
+            ),
+            minLeadingWidth: 0,
+            leading: const Icon(
+              Icons.local_fire_department_sharp,
+              color: Colors.red,
+              size: 30,
+            ),
+          ),
+          Container(
             child: Carousel(),
           ),
         ],
@@ -35,10 +48,10 @@ class HomeContent extends StatelessWidget {
       builder: (ctx, productsManager, child) {
         return CarouselSlider.builder(
           options: CarouselOptions(
-              height: 200.0,
-              aspectRatio: 16 / 9,
+              height: 400.0,
+              aspectRatio: 2.0,
               viewportFraction: 0.8,
-              initialPage: 0,
+              initialPage: 2,
               enableInfiniteScroll: true,
               reverse: false,
               autoPlay: true,
@@ -51,7 +64,7 @@ class HomeContent extends StatelessWidget {
               scrollDirection: Axis.horizontal),
           itemCount: productsManager.itemCount,
           itemBuilder: (ctx, i, int pageViewIndex) => Column(children: [
-            AdminProductListTile(
+            ProductItem(
               productsManager.items[i],
             ),
           ]),

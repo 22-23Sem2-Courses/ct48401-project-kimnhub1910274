@@ -14,13 +14,29 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: const Text('Furniture'),
+            title: const Text(
+              'Furniture',
+              style: TextStyle(fontSize: 23),
+            ),
             automaticallyImplyLeading: false,
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text(
+              'Home',
+              style: TextStyle(fontSize: 17),
+            ),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/');
+            },
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.shop),
-            title: const Text('Orders'),
+            title: const Text(
+              'Orders',
+              style: TextStyle(fontSize: 17),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/orders');
             },
@@ -28,7 +44,10 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.edit),
-            title: const Text('Manager Products'),
+            title: const Text(
+              'Manager Products',
+              style: TextStyle(fontSize: 17),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/admin-products');
             },
@@ -36,15 +55,21 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.list),
-            title: const Text('List Favorites'),
+            title: const Text(
+              'List Favorites',
+              style: TextStyle(fontSize: 17),
+            ),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/');
+              Navigator.of(context).pushReplacementNamed('/list-favorites');
             },
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
-            title: const Text('Logout'),
+            title: const Text(
+              'Logout',
+              style: TextStyle(fontSize: 17),
+            ),
             onTap: () {
               Navigator.of(context)
                 ..pop()

@@ -17,6 +17,7 @@ class EditProductScreen extends StatefulWidget {
         id: null,
         title: '',
         price: 0,
+        // priceDiscount: 0,
         description: '',
         imageUrl: '',
       );
@@ -93,6 +94,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       children: <Widget>[
                         buildTitleField(),
                         buildPriceField(),
+                        // buildPriceDiscountField(),
                         buildDescriptionField(),
                         buildProductPreview(),
                       ],
@@ -104,7 +106,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
   TextFormField buildTitleField() {
     return TextFormField(
       initialValue: _editedProduct.title,
-      decoration: const InputDecoration(labelText: 'Title'),
+      decoration: const InputDecoration(
+          labelText: 'Title',
+          labelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
       textInputAction: TextInputAction.next,
       autofocus: true,
       validator: (value) {
@@ -123,7 +127,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
   TextFormField buildPriceField() {
     return TextFormField(
       initialValue: _editedProduct.price.toString(),
-      decoration: const InputDecoration(labelText: 'Price'),
+      decoration: const InputDecoration(
+          labelText: 'Price',
+          labelStyle: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.w500,
+          )),
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
       validator: (value) {
@@ -144,12 +153,43 @@ class _EditProductScreenState extends State<EditProductScreen> {
     );
   }
 
+  // TextFormField buildPriceDiscountField() {
+  //   return TextFormField(
+  //     initialValue: _editedProduct.priceDiscount.toString(),
+  //     decoration: const InputDecoration(
+  //         labelText: 'Price Discount',
+  //         labelStyle: TextStyle(
+  //           fontSize: 25,
+  //           fontWeight: FontWeight.w500,
+  //         )),
+  //     textInputAction: TextInputAction.next,
+  //     keyboardType: TextInputType.number,
+  //     validator: (value) {
+  //       if (value!.isEmpty) {
+  //         return 'Please provide a price discount';
+  //       }
+  //       if (double.tryParse(value) == null) {
+  //         return 'Please enter a valid number';
+  //       }
+  //       if (double.parse(value) <= 0) {
+  //         return 'Please enter a number greater than size';
+  //       }
+  //       return null;
+  //     },
+  //     onSaved: (value) {
+  //       _editedProduct = _editedProduct.copyWith(price: double.parse(value!));
+  //     },
+  //   );
+  // }
+
 //truong nhap lieu mo ta
   TextFormField buildDescriptionField() {
     return TextFormField(
       initialValue: _editedProduct.description,
-      decoration: const InputDecoration(labelText: 'Description'),
-      maxLines: 3,
+      decoration: const InputDecoration(
+          labelText: 'Description',
+          labelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+      // maxLines: 2,
       keyboardType: TextInputType.multiline,
       validator: (value) {
         if (value!.isEmpty) {
@@ -175,7 +215,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           width: 100,
           height: 100,
           margin: const EdgeInsets.only(
-            top: 8,
+            top: 20,
             right: 10,
           ),
           decoration: BoxDecoration(
@@ -203,7 +243,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
 // url img
   TextFormField buildImageURLField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Image URL'),
+      decoration: const InputDecoration(
+          labelText: 'Image URL',
+          labelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
       keyboardType: TextInputType.url,
       textInputAction: TextInputAction.done,
       controller: _imageUrlController,
@@ -256,7 +298,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       // print(_editedProduct.description);
 
       if (_editedProduct.id != null) {
-        //  productsManager.updateProduct(_editedProduct);
+        productsManager.updateProduct(_editedProduct);
       } else {
         productsManager.addProduct(_editedProduct);
       }

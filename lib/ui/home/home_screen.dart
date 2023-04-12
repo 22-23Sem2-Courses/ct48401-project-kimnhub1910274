@@ -5,7 +5,7 @@ import 'package:myproject_app/ui/home/home_content.dart';
 import '/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
 import '../shared/app_drawer.dart';
-// import 'products_grid.dart';
+import '../products/products_grid.dart';
 // import '../cart/cart_manager.dart';
 // import 'top_right_badge.dart';
 import 'package:flutter/src/scheduler/ticker.dart';
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _showOnLyFavorites = ValueNotifier<bool>(false);
   late Future<void> _fetchProducts;
   late TabController _tabController;
-  var _showOnlyFavorites = false;
+  //var _showOnlyFavorites = false;
   @override
   void initState() {
     super.initState();
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             )),
             Tab(
                 child: Text(
-              "Desk",
+              "Product",
               style: TextStyle(
                 fontFamily: "BarlowBold",
                 fontSize: 18,
@@ -62,15 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             )),
             Tab(
                 child: Text(
-              "Bed",
-              style: TextStyle(
-                fontFamily: "BarlowBold",
-                fontSize: 18,
-              ),
-            )),
-            Tab(
-                child: Text(
-              "Sofa",
+              "Introduce",
               style: TextStyle(
                 fontFamily: "BarlowBold",
                 fontSize: 18,
@@ -94,23 +86,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   // return ProductsGrid(onlyFavorites);
                   return TabBarView(
                     controller: _tabController,
-                    children: const <Widget>[
-                      Center(
+                    children: [
+                      // Center(
+                      //   child: HomeContent(),
+                      //   // child: ProductsGrid(onlyFavorites),
+                      // ),
+                      const Center(
                         child: HomeContent(),
-                        // child: ProductsGrid(onlyFavorites),
                       ),
-                      Center(
+                      Container(
+                        child: ProductsGrid(onlyFavorites),
+                      ),
+                      const Center(
                         child: Text("It's rainy here"),
                       ),
-                      Center(
-                        child: Text("It's sunny here"),
-                      ),
-                      Center(
-                        child: Text("It's sunny here"),
-                      ),
+                      // Center(
+                      //   child: Text("It's sunny here"),
+                      // ),
+                      //  child: HomeContent(),
 
-                      //  ProductsGrid(onlyFavorites),
-                      Text('data')
+                      //Text('data')
                     ],
                   );
                 });
