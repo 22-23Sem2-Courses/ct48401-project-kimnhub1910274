@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myproject_app/ui/home/home_banner.dart';
 import 'package:myproject_app/ui/home/home_content.dart';
-// import '/ui/cart/cart_screen.dart';
+import '/ui/cart/cart_screen.dart';
 import '/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
 import '../shared/app_drawer.dart';
 import '../products/products_grid.dart';
-// import '../cart/cart_manager.dart';
-// import 'top_right_badge.dart';
+import '../cart/cart_manager.dart';
+import '../products/top_right_badge.dart';
 import 'package:flutter/src/scheduler/ticker.dart';
 
 enum FilterOptions { favorites, all }
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _fetchProducts = context.read<ProductsManager>().fetchProducts();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -39,6 +39,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           'Furniture',
           style: TextStyle(fontSize: 25),
         ),
+        actions: <Widget>[
+          // buildProductFilterMenu(),
+          buildShoppingCartIcon(),
+        ],
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
@@ -70,10 +74,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             )),
           ],
         ),
-        actions: <Widget>[
-          // buildProductFilterMenu(),
-          buildShoppingCartIcon(),
-        ],
       ),
       drawer: const AppDrawer(),
       body: FutureBuilder(
@@ -83,14 +83,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             return ValueListenableBuilder<bool>(
                 valueListenable: _showOnLyFavorites,
                 builder: (context, onlyFavorites, child) {
-                  // return ProductsGrid(onlyFavorites);
                   return TabBarView(
                     controller: _tabController,
                     children: [
-                      // Center(
-                      //   child: HomeContent(),
-                      //   // child: ProductsGrid(onlyFavorites),
-                      // ),
                       const Center(
                         child: HomeContent(),
                       ),
@@ -100,12 +95,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       const Center(
                         child: Text("It's rainy here"),
                       ),
-                      // Center(
-                      //   child: Text("It's sunny here"),
-                      // ),
-                      //  child: HomeContent(),
-
-                      //Text('data')
                     ],
                   );
                 });
@@ -119,13 +108,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget buildShoppingCartIcon() {
-    return IconButton(
-        onPressed: () {
-          print('Go to cart ');
-        },
-        icon: const Icon(
-          Icons.shopping_cart,
-        ));
+    return Consumer<CartManager>(
+      builder: (ctx, cartManager, child) {
+        return TopRightBadge(
+          data: cartManager.productCount,
+          child: IconButton(
+            icon: const Icon(
+              Icons.shopping_cart,
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pushNamed(CartScreen.routeName);
+            },
+          ),
+        );
+      },
+    );
   }
 
   // Widget buildProductFilterMenu() {

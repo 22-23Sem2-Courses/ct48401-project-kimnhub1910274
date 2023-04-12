@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:myshop/ui/cart/cart_manager.dart';
+import 'package:myproject_app/ui/cart/cart_manager.dart';
 // import 'package:myshop/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
 import '../../models/product.dart';
 import '../products/products_manager.dart';
+import '../products/top_right_badge.dart';
+import '/ui/cart/cart_screen.dart';
 
 class ProductDetail extends StatelessWidget {
   static const routeName = '/product-detail';
@@ -18,8 +20,11 @@ class ProductDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          // title: Text(product.title),
-          ),
+        actions: <Widget>[
+          // buildProductFilterMenu(),
+          buildShoppingCartIcon(),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -81,7 +86,24 @@ class ProductDetail extends StatelessWidget {
               height: 30,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                final cart = context.read<CartManager>();
+                cart.addItem(product);
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: const Text('Item added to cart'),
+                      duration: const Duration(seconds: 2),
+                      action: SnackBarAction(
+                        label: 'UNDO',
+                        onPressed: () {
+                          cart.removeSingleItem(product.id!);
+                        },
+                      ),
+                    ),
+                  );
+              },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: const [
@@ -103,6 +125,24 @@ class ProductDetail extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildShoppingCartIcon() {
+    return Consumer<CartManager>(
+      builder: (ctx, cartManager, child) {
+        return TopRightBadge(
+          data: cartManager.productCount,
+          child: IconButton(
+            icon: const Icon(
+              Icons.shopping_cart,
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pushNamed(CartScreen.routeName);
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:myshop/ui/cart/cart_manager.dart';
-// import 'package:myshop/ui/products/products_manager.dart';
+import '../../ui/cart/cart_manager.dart';
+import '../../ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/product.dart';
@@ -25,6 +25,14 @@ class ProductItem extends StatelessWidget {
             elevation: 5,
             child: Column(
               children: <Widget>[
+                Container(
+                  height: 150.0,
+                  width: 300,
+                  child: Ink.image(
+                    image: NetworkImage(product.imageUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 ListTile(
                   title: Padding(
                     padding: const EdgeInsets.only(
@@ -60,18 +68,6 @@ class ProductItem extends StatelessWidget {
                     },
                   ),
                 ),
-                Container(
-                  height: 100.0,
-                  width: 300,
-                  child: Ink.image(
-                    image: NetworkImage(product.imageUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  // padding: EdgeInsets.all(5.0),
-                  alignment: Alignment.centerLeft,
-                ),
                 ButtonBar(
                   children: [
                     TextButton(
@@ -79,7 +75,24 @@ class ProductItem extends StatelessWidget {
                         'ADD TO CART',
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      onPressed: () {/* ... */},
+                      onPressed: () {
+                        final cart = context.read<CartManager>();
+                        cart.addItem(product);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(
+                            SnackBar(
+                              content: const Text('Item added to cart'),
+                              duration: const Duration(seconds: 2),
+                              action: SnackBarAction(
+                                label: 'UNDO',
+                                onPressed: () {
+                                  cart.removeSingleItem(product.id!);
+                                },
+                              ),
+                            ),
+                          );
+                      },
                     ),
                   ],
                 )

@@ -51,7 +51,7 @@ class HomeContent extends StatelessWidget {
               height: 400.0,
               aspectRatio: 2.0,
               viewportFraction: 0.8,
-              initialPage: 2,
+              initialPage: 1,
               enableInfiniteScroll: true,
               reverse: false,
               autoPlay: true,
