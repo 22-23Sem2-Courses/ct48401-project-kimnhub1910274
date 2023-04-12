@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:myshop/ui/cart/cart_manager.dart';
@@ -7,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/product.dart';
-//import 'product_detail_screen.dart';
 import '../products/products_manager.dart';
 
 class ProductItem extends StatelessWidget {
@@ -29,9 +26,14 @@ class ProductItem extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 ListTile(
-                  title: Text(
-                    product.title,
-                    style: TextStyle(fontSize: 18),
+                  title: Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 3,
+                    ),
+                    child: Text(
+                      product.title,
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ),
                   subtitle: Text(
                     '\$${product.price}',
@@ -47,7 +49,7 @@ class ProductItem extends StatelessWidget {
                         icon: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
                         ),
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.error,
                         onPressed: () {
                           // product.isFavorite = !isFavorite;
                           ctx

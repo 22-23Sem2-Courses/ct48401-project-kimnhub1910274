@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/product.dart';
-//import 'product_detail_screen.dart';
+import 'product_detail.dart';
 import '../products/products_manager.dart';
 
 class ProductGridTile extends StatelessWidget {
@@ -28,10 +28,10 @@ class ProductGridTile extends StatelessWidget {
             Container(
               child: GestureDetector(
                 onTap: () {
-                  // Navigator.of(context).pushNamed(
-                  //   ProductDetailScreen.routeName,
-                  //   arguments: product.id,
-                  // );
+                  Navigator.of(context).pushNamed(
+                    ProductDetail.routeName,
+                    arguments: product.id,
+                  );
                 },
                 child: Image.network(
                   product.imageUrl,
@@ -53,7 +53,7 @@ class ProductGridTile extends StatelessWidget {
                     icon: Icon(
                       isFavorite ? Icons.favorite : Icons.favorite_border,
                     ),
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.error,
                     onPressed: () {
                       // product.isFavorite = !isFavorite;
                       ctx.read<ProductsManager>().toggleFavoriteStatus(product);
