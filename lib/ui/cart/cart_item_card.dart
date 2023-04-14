@@ -45,26 +45,23 @@ class CartItemCard extends StatelessWidget {
   }
 
   Widget buildItemCart() {
-    print(cardItem.title);
-    return Card(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 4,
-      ),
+    return SizedBox(
+      // margin: const EdgeInsets.symmetric(
+      //   horizontal: 15,
+      //   vertical: 4,
+      // ),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: ListTile(
-          leading: Image.network(cardItem.imageUrl),
-          // leading: CircleAvatar(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(5),
-          //     child: FittedBox(
-          //         //    child: Image.network(cardItem.imageUrl),
-          //         ),
-          //   ),
-          // ),
-          title: Text(cardItem.title),
-          subtitle: Text('Total: \$${(cardItem.price * cardItem.quantity)}'),
+          leading: ClipRRect(
+            child: Image.network(cardItem.imageUrl,
+                width: 100, height: 200, fit: BoxFit.fill),
+          ),
+          title: Text(cardItem.title, style: TextStyle(fontSize: 18)),
+          subtitle: Text(
+            '\$${(cardItem.price)}',
+            style: const TextStyle(fontSize: 16),
+          ),
           trailing: Text('${cardItem.quantity} x'),
         ),
       ),

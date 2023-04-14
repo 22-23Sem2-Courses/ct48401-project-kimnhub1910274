@@ -109,7 +109,7 @@ class ProductDetail extends StatelessWidget {
                 children: const [
                   Icon(
                     // <-- Icon
-                    Icons.shopping_cart,
+                    Icons.shopping_cart_outlined,
                     size: 24.0,
                   ),
                   SizedBox(
@@ -135,7 +135,7 @@ class ProductDetail extends StatelessWidget {
           data: cartManager.productCount,
           child: IconButton(
             icon: const Icon(
-              Icons.shopping_cart,
+              Icons.shopping_cart_outlined,
             ),
             onPressed: () {
               Navigator.of(ctx).pushNamed(CartScreen.routeName);

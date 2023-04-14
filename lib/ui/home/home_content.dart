@@ -15,35 +15,31 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          const Flexible(
-            child: HomeBanner(),
+    return Column(
+      children: <Widget>[
+        const Flexible(
+          child: HomeBanner(),
+        ),
+        const ListTile(
+          title: Text(
+            'Product Sales',
+            style: TextStyle(fontSize: 20),
           ),
-          ListTile(
-            title: const Text(
-              'Product Sales',
-              style: TextStyle(fontSize: 20),
-            ),
-            minLeadingWidth: 0,
-            leading: const Icon(
-              Icons.local_fire_department_sharp,
-              color: Colors.red,
-              size: 30,
-            ),
+          minLeadingWidth: 0,
+          leading: Icon(
+            Icons.local_fire_department_sharp,
+            color: Colors.red,
+            size: 30,
           ),
-          Container(
-            child: Carousel(),
-          ),
-        ],
-      ),
-
-      //transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
+        ),
+        Container(
+          child: myCarousel(),
+        ),
+      ],
     );
   }
 
-  Widget Carousel() {
+  Widget myCarousel() {
     return Consumer<ProductsManager>(
       builder: (ctx, productsManager, child) {
         return CarouselSlider.builder(
@@ -69,18 +65,6 @@ class HomeContent extends StatelessWidget {
             ),
           ]),
         );
-        // print(productsManager.itemCount);
-        // return ListView.builder(
-        //   itemCount: productsManager.itemCount,
-        //   itemBuilder: (ctx, i) => Column(
-        //     children: [
-        //       AdminProductListTile(
-        //         productsManager.items[i],
-        //       ),
-        //       const Divider(),
-        //     ],
-        //   ),
-        // );
       },
     );
   }

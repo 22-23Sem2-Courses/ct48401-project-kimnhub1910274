@@ -18,6 +18,7 @@ class AppDrawer extends StatelessWidget {
               'Furniture',
               style: TextStyle(fontSize: 23),
             ),
+            //  backgroundColor: Color.fromRGBO(224, 139, 139, 1),
             automaticallyImplyLeading: false,
           ),
           ListTile(

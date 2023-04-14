@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myproject_app/ui/home/home_banner.dart';
 import 'package:myproject_app/ui/home/home_content.dart';
+import 'package:myproject_app/ui/introduce/inroduce_screen.dart';
 import '/ui/cart/cart_screen.dart';
 import '/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ import '../products/products_grid.dart';
 import '../cart/cart_manager.dart';
 import '../products/top_right_badge.dart';
 import 'package:flutter/src/scheduler/ticker.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 enum FilterOptions { favorites, all }
 
@@ -31,6 +34,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _tabController = TabController(length: 3, vsync: this);
   }
 
+  int _selectedIndex = 0;
+
+  _setIndex(int value) {
+    setState(() {
+      _selectedIndex = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,36 +55,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           buildShoppingCartIcon(),
         ],
         centerTitle: true,
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorWeight: 2,
-          tabs: const <Widget>[
-            Tab(
-                child: Text(
-              "Home",
-              style: TextStyle(
-                fontFamily: "BarlowBold",
-                fontSize: 18,
-              ),
-            )),
-            Tab(
-                child: Text(
-              "Product",
-              style: TextStyle(
-                fontFamily: "BarlowBold",
-                fontSize: 18,
-              ),
-            )),
-            Tab(
-                child: Text(
-              "Introduce",
-              style: TextStyle(
-                fontFamily: "BarlowBold",
-                fontSize: 18,
-              ),
-            )),
-          ],
-        ),
       ),
       drawer: const AppDrawer(),
       body: FutureBuilder(
@@ -83,26 +64,79 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             return ValueListenableBuilder<bool>(
                 valueListenable: _showOnLyFavorites,
                 builder: (context, onlyFavorites, child) {
-                  return TabBarView(
-                    controller: _tabController,
+                  return Material(
+                      child: IndexedStack(
+                    index: _selectedIndex,
                     children: [
-                      const Center(
-                        child: HomeContent(),
+                      Center(
+                        child: GestureDetector(
+                          onLongPress: () => _setIndex(0),
+                          child: const HomeContent(),
+                        ),
                       ),
-                      Container(
-                        child: ProductsGrid(onlyFavorites),
+                      Center(
+                        child: GestureDetector(
+                          onLongPress: () => _setIndex(1),
+                          child: ProductsGrid(onlyFavorites),
+                        ),
                       ),
-                      const Center(
-                        child: Text("It's rainy here"),
+                      Center(
+                        child: GestureDetector(
+                          onLongPress: () => _setIndex(0),
+                          child: const Introduce(),
+                        ),
                       ),
                     ],
-                  );
+                  ));
                 });
           }
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.1),
+            )
+          ],
+        ),
+        // color: Colors.white70,
+        child: SafeArea(
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
+                child: GNav(
+                  backgroundColor: Colors.white,
+                  color: Colors.pink,
+                  activeColor: Colors.white,
+                  tabBackgroundColor: Color.fromRGBO(224, 139, 139, 1),
+                  gap: 6,
+                  padding: const EdgeInsets.all(14),
+                  tabs: const [
+                    GButton(
+                      icon: CupertinoIcons.home,
+                      text: 'Home',
+                    ),
+                    GButton(
+                      icon: CupertinoIcons.bag,
+                      text: 'Product',
+                    ),
+                    GButton(
+                      icon: CupertinoIcons.news_solid,
+                      text: 'Introduce',
+                    ),
+                  ],
+                  selectedIndex: _selectedIndex,
+                  onTabChange: (index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                ))),
       ),
     );
   }
@@ -113,9 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         return TopRightBadge(
           data: cartManager.productCount,
           child: IconButton(
-            icon: const Icon(
-              Icons.shopping_cart,
-            ),
+            icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
               Navigator.of(ctx).pushNamed(CartScreen.routeName);
             },
