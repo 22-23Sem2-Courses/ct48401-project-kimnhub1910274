@@ -29,13 +29,17 @@ class _OrderItemCardState extends State<OrderItemCard> {
   Widget buildOrderDetails() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-      height: min(widget.order.productCount * 20.0 + 10, 100),
+      height: min(widget.order.productCount * 100.0 + 10, 100),
       child: ListView(
         children: widget.order.products
             .map(
               (prod) => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
+                  Image.network(
+                    prod.imageUrl,
+                    width: 100,
+                  ),
                   Text(
                     prod.title,
                     style: const TextStyle(
