@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myproject_app/ui/home/home_banner.dart';
 import 'package:myproject_app/ui/home/home_content.dart';
-import 'package:myproject_app/ui/introduce/inroduce_screen.dart';
+import 'package:myproject_app/ui/about/about_screen.dart';
 import '/ui/cart/cart_screen.dart';
 import '/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
@@ -10,28 +10,29 @@ import '../shared/app_drawer.dart';
 import '../products/products_grid.dart';
 import '../cart/cart_manager.dart';
 import '../products/top_right_badge.dart';
-import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import '../search/search_screen.dart';
 
 enum FilterOptions { favorites, all }
 
 class HomeScreen extends StatefulWidget {
+  // static const routeName = '/';
   const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> {
   final _showOnLyFavorites = ValueNotifier<bool>(false);
   late Future<void> _fetchProducts;
-  late TabController _tabController;
+  bool searchState = false;
+
   //var _showOnlyFavorites = false;
   @override
   void initState() {
     super.initState();
     _fetchProducts = context.read<ProductsManager>().fetchProducts();
-    _tabController = TabController(length: 3, vsync: this);
   }
 
   int _selectedIndex = 0;
@@ -46,15 +47,44 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Furniture',
-          style: TextStyle(fontSize: 25),
-        ),
+        title: !searchState
+            ? const Text(
+                'Furniture',
+                style: TextStyle(fontSize: 25),
+              )
+            : const TextField(
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search),
+                  hintText: "Search...",
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                // onChanged: (val) {
+                //   setState(() {
+                //     name = val;
+                //   });
+                // },
+              ),
         actions: <Widget>[
-          // buildProductFilterMenu(),
+          // !searchState
+          //     ? IconButton(
+          //         onPressed: () {
+          //           setState(() {
+          //             searchState = !searchState;
+          //           });
+          //         },
+          //         icon: Icon(Icons.search))
+          //     : IconButton(
+          //         onPressed: () {
+          //           setState(() {
+          //             searchState = !searchState;
+          //           });
+          //         },
+          //         icon: Icon(Icons.cancel)),
+          // buidSearch(),
+          buildProductFilterMenu(),
           buildShoppingCartIcon(),
         ],
-        centerTitle: true,
+        // centerTitle: true,
       ),
       drawer: const AppDrawer(),
       body: FutureBuilder(
@@ -83,7 +113,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Center(
                         child: GestureDetector(
                           onLongPress: () => _setIndex(0),
-                          child: const Introduce(),
+                          child: const About(),
+                        ),
+                      ),
+                      Center(
+                        child: GestureDetector(
+                          onLongPress: () => _setIndex(0),
+                          child: const SearchScreen(),
                         ),
                       ),
                     ],
@@ -127,7 +163,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     GButton(
                       icon: CupertinoIcons.news_solid,
-                      text: 'Introduce',
+                      text: 'About',
+                    ),
+                    GButton(
+                      icon: CupertinoIcons.search,
+                      text: 'Search',
                     ),
                   ],
                   selectedIndex: _selectedIndex,
@@ -157,31 +197,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  // Widget buildProductFilterMenu() {
-  //   return PopupMenuButton(
-  //     onSelected: (FilterOptions selectedValue) {
-  //       //  setState(() {
-  //       if (selectedValue == FilterOptions.favorites) {
-  //         _showOnLyFavorites.value = true;
-  //       } else {
-  //         _showOnLyFavorites.value = false;
-  //       }
-  //     },
-  //     //   );
-  //     // },
-  //     icon: const Icon(
-  //       Icons.more_vert,
-  //     ),
-  //     itemBuilder: (ctx) => [
-  //       const PopupMenuItem(
-  //         value: FilterOptions.favorites,
-  //         child: Text('Only Favorite'),
-  //       ),
-  //       const PopupMenuItem(
-  //         value: FilterOptions.all,
-  //         child: Text('Show All'),
-  //       )
-  //     ],
-  //   );
+  Widget buildProductFilterMenu() {
+    return PopupMenuButton(
+      onSelected: (FilterOptions selectedValue) {
+        //  setState(() {
+        if (selectedValue == FilterOptions.favorites) {
+          _showOnLyFavorites.value = true;
+        } else {
+          _showOnLyFavorites.value = false;
+        }
+      },
+      //   );
+      // },
+      icon: const Icon(
+        Icons.more_vert,
+      ),
+      itemBuilder: (ctx) => [
+        const PopupMenuItem(
+          value: FilterOptions.favorites,
+          child: Text('Only Favorite'),
+        ),
+        const PopupMenuItem(
+          value: FilterOptions.all,
+          child: Text('Show All'),
+        )
+      ],
+    );
+  }
+
+  Widget buidSearch() {
+    return IconButton(
+        onPressed: () {
+          showSearch(context: context, delegate: CustomSearch());
+        },
+        icon: const Icon(Icons.search));
+  }
+
+  // void SearchMethod(String text) {
+  //   DatabaseReference searchRef = FirebaseDatabase.instance.ref().child("Data");
+  //   searchRef.once().then((DataSnapshot snapShot)=> Null {
+  //     DataListElement.created();
+  //   });
   // }
 }

@@ -8,6 +8,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final _showOnLyFavorites = ValueNotifier<bool>(false);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
                       return const AuthScreen();
                     }),
             routes: {
+              // HomeScreen.routeName: (ctx) => const HomeScreen(),
               CartScreen.routeName: (ctx) => const CartScreen(),
               OrdersScreen.routeName: (ctx) => const OrdersScreen(),
               AdminProductsScreen.routeName: (ctx) =>

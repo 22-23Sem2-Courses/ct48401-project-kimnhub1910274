@@ -20,6 +20,7 @@ class ProductDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Details'),
         actions: <Widget>[
           // buildProductFilterMenu(),
           buildShoppingCartIcon(),

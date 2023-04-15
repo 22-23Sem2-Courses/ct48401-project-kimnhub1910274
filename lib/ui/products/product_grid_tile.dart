@@ -67,49 +67,6 @@ class ProductGridTile extends StatelessWidget {
       ),
     );
   }
-  //   return ClipRRect(
-  //     borderRadius: BorderRadius.circular(10),
-  //     child: Card(
-  //       child: SingleChildScrollView(
-  //           child: Column(
-  //         children: [
-  //           Container(
-  //             child: GestureDetector(
-  //               onTap: () {
-  //                 // Navigator.of(context).pushNamed(
-  //                 //   ProductDetailScreen.routeName,
-  //                 //   arguments: product.id,
-  //                 // );
-  //               },
-  //               child: Image.network(
-  //                 product.imageUrl,
-  //                 fit: BoxFit.cover,
-  //               ),
-  //             ),
-  //           ),
-  //           ListTile(
-  //             title: Text(product.title),
-  //             trailing: ValueListenableBuilder<bool>(
-  //               valueListenable: product.isFavoriteListenable,
-  //               builder: (ctx, isFavorite, child) {
-  //                 return IconButton(
-  //                   icon: Icon(
-  //                     isFavorite ? Icons.favorite : Icons.favorite_border,
-  //                   ),
-  //                   color: Theme.of(context).colorScheme.secondary,
-  //                   onPressed: () {
-  //                     // product.isFavorite = !isFavorite;
-  //                     ctx.read<ProductsManager>().toggleFavoriteStatus(product);
-  //                   },
-  //                 );
-  //               },
-  //             ),
-  //           )
-  //         ],
-  //       )),
-  //     ),
-  //   );
-  // }
 
   Widget buildGridFooterBar(BuildContext context) {
     return GridTileBar(

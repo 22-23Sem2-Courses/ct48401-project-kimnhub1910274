@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../models/auth_token.dart';
 import '../../services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthManager with ChangeNotifier {
   AuthToken? _authToken;
