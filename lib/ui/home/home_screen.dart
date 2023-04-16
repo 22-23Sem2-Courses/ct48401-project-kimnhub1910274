@@ -12,6 +12,8 @@ import '../cart/cart_manager.dart';
 import '../products/top_right_badge.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../search/search_screen.dart';
+import 'package:textfield_search/textfield_search.dart';
+import '../../models/product.dart';
 
 enum FilterOptions { favorites, all }
 
@@ -27,13 +29,34 @@ class _HomeScreenState extends State<HomeScreen> {
   final _showOnLyFavorites = ValueNotifier<bool>(false);
   late Future<void> _fetchProducts;
   bool searchState = false;
+  final myController = TextEditingController();
 
   //var _showOnlyFavorites = false;
   @override
   void initState() {
     super.initState();
     _fetchProducts = context.read<ProductsManager>().fetchProducts();
+    myController.addListener(_printLatestValue);
   }
+
+  _printLatestValue() {
+    print("text field: ${myController.text}");
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    myController.dispose();
+    super.dispose();
+  }
+
+  // final _testList = [
+  //   'Test Item 1',
+  //   'Test Item 2',
+  //   'Test Item 3',
+  //   'Test Item 4',
+  // ];
 
   int _selectedIndex = 0;
 
@@ -45,6 +68,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final products = context.select<ProductsManager, List<Product>>(
+        (productsManager) => productsManager.products);
+    Future<List> fetchData() async {
+      await Future.delayed(Duration(milliseconds: 30));
+      List list = [];
+      for (var i = 0; i < products.length; i++) {
+        list.add(products[i].title);
+      }
+      return list;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: !searchState
@@ -52,34 +86,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Furniture',
                 style: TextStyle(fontSize: 25),
               )
-            : const TextField(
-                decoration: InputDecoration(
-                  icon: Icon(Icons.search),
-                  hintText: "Search...",
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                // onChanged: (val) {
-                //   setState(() {
-                //     name = val;
-                //   });
-                // },
-              ),
+            : TextFieldSearch(
+                future: () {
+                  return fetchData();
+                },
+                getSelectedValue: (value) {
+                  print(
+                      value); // this prints the selected option which could be an object
+                },
+                label: 'Simple List',
+                controller: myController),
+        // onChanged: (val) {
+        //   setState(() {
+        //     name = val;
+        //   });
+        // },
+
         actions: <Widget>[
-          // !searchState
-          //     ? IconButton(
-          //         onPressed: () {
-          //           setState(() {
-          //             searchState = !searchState;
-          //           });
-          //         },
-          //         icon: Icon(Icons.search))
-          //     : IconButton(
-          //         onPressed: () {
-          //           setState(() {
-          //             searchState = !searchState;
-          //           });
-          //         },
-          //         icon: Icon(Icons.cancel)),
+          //   !searchState
+          //       ? IconButton(
+          //           onPressed: () {
+          //             setState(() {
+          //               searchState = !searchState;
+          //             });
+          //           },
+          //           icon: Icon(Icons.search))
+          //       : IconButton(
+          //           onPressed: () {
+          //             setState(() {
+          //               searchState = !searchState;
+          //             });
+          //             // return SearchScreen(ProductsManager().findByName(productId)!);
+          //           },
+          //           icon: const Icon(Icons.cancel)),
           //buidSearch(),
           //buildProductFilterMenu(),
           buildShoppingCartIcon(),
@@ -119,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Center(
                         child: GestureDetector(
                           onLongPress: () => _setIndex(0),
-                          //  child: const SearchScreen(),
+                          child: const SearchScreen(),
                         ),
                       ),
                     ],
@@ -225,18 +264,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buidSearch() {
-    return IconButton(
-        onPressed: () {
-          showSearch(context: context, delegate: CustomSearch());
-        },
-        icon: const Icon(Icons.search));
-  }
-
-  // void SearchMethod(String text) {
-  //   DatabaseReference searchRef = FirebaseDatabase.instance.ref().child("Data");
-  //   searchRef.once().then((DataSnapshot snapShot)=> Null {
-  //     DataListElement.created();
-  //   });
+  // Widget buidSearch() {
+  //   return IconButton(
+  //       onPressed: () {
+  //         MyApp();
+  //       },
+  //       icon: const Icon(Icons.search));
   // }
 }

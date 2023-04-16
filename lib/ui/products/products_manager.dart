@@ -49,6 +49,18 @@ class ProductsManager with ChangeNotifier {
     }
   }
 
+  List<Product> get products {
+    return _items.toList();
+  }
+
+  Product? findByName(String query) {
+    try {
+      return _items.firstWhere((item) => item.title == query.toLowerCase());
+    } catch (error) {
+      return null;
+    }
+  }
+
   Future<void> toggleFavoriteStatus(Product product) async {
     final savedStatus = product.isFavorite;
     product.isFavorite = !savedStatus;

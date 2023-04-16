@@ -1,113 +1,73 @@
 import 'package:flutter/material.dart';
-// import 'package:myproject_app/ui/products/products_grid.dart';
-// import '../screen.dart';
-// import 'dart:async';
 import 'package:provider/provider.dart';
-// import 'package:flutter/foundation.dart';
-import '../../models/product.dart';
-// import '../../services/products_service.dart';
-// import '../../models/auth_token.dart';
-// import '../shared/dialog_utils.dart';
+import '../products/product_grid_tile.dart';
 import '../products/products_manager.dart';
-// import '../../services/products_service.dart';
 
-class SearchScreen extends StatelessWidget {
-  final Product product;
-  const SearchScreen(this.product, {super.key});
+import '../../models/product.dart';
+
+class SearchScreen extends StatefulWidget {
+  // static const routeName = '/';
+  const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final controller = TextEditingController();
+  List<Product> products = [];
+
+  //static List<Product> all;
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          showSearch(context: context, delegate: CustomSearch());
-        },
-        icon: const Icon(Icons.search));
-  }
-}
-
-class CustomSearch extends SearchDelegate {
-  //   final ProductsService _productsService;
-
-  List<Product> allData = [];
-  List<Product> get items {
-    return [...allData];
-  }
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: const Icon(Icons.clear),
-      )
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    //var allData = _refreshProducts(context);
-    final listItem = query.isEmpty
-        ? allData
-        : allData.where((element) => (element.title.startsWith(query)));
-    print(allData);
-    return listItem.isEmpty
-        ? const Center(
-            child: Text("No Product Found!!"),
-          )
-        : ListView.builder(
-            itemCount: listItem.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          showResults(context);
-                        },
-                        // leading: Icon(Icons.production_quantity_limits_rounded),
-                        // title: Text(
-                        //   listItem[index].title,
-                        // ),
-                        // subtitle: Text("Price: ${(listItem[index].price)}"
-                        // ),
-                      )
-                    ],
-                  ));
-            });
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Search'),
+        ),
+        body: Column(
+          children: <Widget>[
+            Container(
+                margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                child: TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: 'Search...',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(color: Colors.blue))),
+                  onChanged: searchProducts,
+                )),
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.all(10.0),
+                itemCount: products.length,
+                itemBuilder: (ctx, i) {
+                  final product = products[i];
+                  return ListTile(
+                    leading: Image.network(product.imageUrl),
+                    title: Text(product.title),
+                  );
+                },
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  //  childAspectRatio: 3 / 2,
+                  //  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+              ),
+            )
+          ],
+        ));
   }
 
-  @override
-  Widget buildResults(BuildContext context) {
-    return Center(
-      child: Text(query),
-    );
-    //   List<String> matchQuery = [];
-    //   for (var item in allData) {
-    //     if (item.toLowerCase().contains(query.toLowerCase())) {
-    //       matchQuery.add(item);
-    //     }
-    //   }
-    //   return ListView.builder(
-    //       itemCount: matchQuery.length,
-    //       itemBuilder: (context, index) {
-    //         var result = matchQuery[index];
-    //         return ListTile(
-    //           title: Text(result),
-    //         );
-    //       });
+  void searchProducts(String query) {
+    final sug = products.where((product) {
+      final title = product.title.toLowerCase();
+      final input = query.toLowerCase();
+      return title.contains(input);
+    }).toList();
+    setState(() => products = sug);
   }
 }

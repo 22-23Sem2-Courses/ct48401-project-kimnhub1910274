@@ -153,35 +153,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
     );
   }
 
-  // TextFormField buildPriceDiscountField() {
-  //   return TextFormField(
-  //     initialValue: _editedProduct.priceDiscount.toString(),
-  //     decoration: const InputDecoration(
-  //         labelText: 'Price Discount',
-  //         labelStyle: TextStyle(
-  //           fontSize: 25,
-  //           fontWeight: FontWeight.w500,
-  //         )),
-  //     textInputAction: TextInputAction.next,
-  //     keyboardType: TextInputType.number,
-  //     validator: (value) {
-  //       if (value!.isEmpty) {
-  //         return 'Please provide a price discount';
-  //       }
-  //       if (double.tryParse(value) == null) {
-  //         return 'Please enter a valid number';
-  //       }
-  //       if (double.parse(value) <= 0) {
-  //         return 'Please enter a number greater than size';
-  //       }
-  //       return null;
-  //     },
-  //     onSaved: (value) {
-  //       _editedProduct = _editedProduct.copyWith(price: double.parse(value!));
-  //     },
-  //   );
-  // }
-
 //truong nhap lieu mo ta
   TextFormField buildDescriptionField() {
     return TextFormField(
