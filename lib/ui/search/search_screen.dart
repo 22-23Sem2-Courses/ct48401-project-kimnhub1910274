@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:myproject_app/ui/products/products_grid.dart';
-import '../screen.dart';
-import 'dart:async';
+// import 'package:myproject_app/ui/products/products_grid.dart';
+// import '../screen.dart';
+// import 'dart:async';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import '../../models/product.dart';
-import '../../services/products_service.dart';
-import '../../models/auth_token.dart';
-import '../shared/dialog_utils.dart';
+// import '../../services/products_service.dart';
+// import '../../models/auth_token.dart';
+// import '../shared/dialog_utils.dart';
 import '../products/products_manager.dart';
-import '../../services/products_service.dart';
+// import '../../services/products_service.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({
-    Key? key,
-  }) : super(key: key);
+  final Product product;
+  const SearchScreen(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +29,9 @@ class CustomSearch extends SearchDelegate {
   //   final ProductsService _productsService;
 
   List<Product> allData = [];
-  //  Future<void> fetchProducts([bool filterByUser = false]) async {
-  //  allData = await _productsService.fetchProducts(filterByUser);
-  //   notifyListeners();
+  List<Product> get items {
+    return [...allData];
+  }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -61,7 +60,7 @@ class CustomSearch extends SearchDelegate {
     //var allData = _refreshProducts(context);
     final listItem = query.isEmpty
         ? allData
-        : allData.where((element) => element.title.startsWith(query)).toList();
+        : allData.where((element) => (element.title.startsWith(query)));
     print(allData);
     return listItem.isEmpty
         ? const Center(
@@ -79,11 +78,12 @@ class CustomSearch extends SearchDelegate {
                         onTap: () {
                           showResults(context);
                         },
-                        leading: Icon(Icons.production_quantity_limits_rounded),
-                        title: Text(
-                          listItem[index].title,
-                        ),
-                        subtitle: Text("Price: ${(listItem[index].price)}"),
+                        // leading: Icon(Icons.production_quantity_limits_rounded),
+                        // title: Text(
+                        //   listItem[index].title,
+                        // ),
+                        // subtitle: Text("Price: ${(listItem[index].price)}"
+                        // ),
                       )
                     ],
                   ));

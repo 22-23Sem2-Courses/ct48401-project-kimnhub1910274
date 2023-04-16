@@ -14,3 +14,4 @@ export 'cart/cart_screen.dart';
 
 export 'orders/orders_screen.dart';
 export 'orders/order_manager.dart';
+export 'products/list_favorites_products.dart';

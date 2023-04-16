@@ -55,6 +55,17 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
+            leading: const Icon(Icons.favorite_border_outlined),
+            title: const Text(
+              'List Favorites',
+              style: TextStyle(fontSize: 17),
+            ),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/list-favorites');
+            },
+          ),
+          const Divider(),
+          ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text(
               'Logout',

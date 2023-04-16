@@ -48,9 +48,8 @@ class CartScreen extends StatelessWidget {
       // margin: const EdgeInsets.symmetric(
       //   horizontal: 15,
       // ),
-      decoration: new BoxDecoration(boxShadow: [
-        new BoxShadow(
-            color: Color.fromARGB(255, 222, 222, 222), blurRadius: 5.0)
+      decoration: const BoxDecoration(boxShadow: [
+        BoxShadow(color: Color.fromARGB(255, 222, 222, 222), blurRadius: 5.0)
       ]),
       child: Card(
         child: Column(
@@ -91,50 +90,5 @@ class CartScreen extends StatelessWidget {
         ),
       ),
     );
-    // return Card(
-    //   margin: const EdgeInsets.all(15),
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(8),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: <Widget>[
-    //         Chip(
-    //           label: Text(
-    //             '${cart.productCount} items',
-    //             style: const TextStyle(
-    //                 color: Color.fromARGB(255, 86, 83, 83), fontSize: 16),
-    //           ),
-    //           backgroundColor: Colors.white,
-    //         ),
-    //         const Spacer(),
-    //         Chip(
-    //           label: Text(
-    //             '\$${cart.totalAmount.toStringAsFixed(2)}',
-    //             style: TextStyle(
-    //               color: Theme.of(context).primaryTextTheme.titleLarge?.color,
-    //             ),
-    //           ),
-    //           backgroundColor: Theme.of(context).primaryColor,
-    //         ),
-    //         const Divider(),
-    //         TextButton(
-    //           onPressed: cart.totalAmount <= 0
-    //               ? null
-    //               : () {
-    //                   context.read<OrdersManager>().addOrder(
-    //                         cart.products,
-    //                         cart.totalAmount,
-    //                       );
-    //                   cart.clear();
-    //                 },
-    //           style: TextButton.styleFrom(
-    //             textStyle: TextStyle(color: Theme.of(context).primaryColor),
-    //           ),
-    //           child: const Text('CHECK OUT'),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

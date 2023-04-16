@@ -80,11 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
           //           });
           //         },
           //         icon: Icon(Icons.cancel)),
-          // buidSearch(),
-          buildProductFilterMenu(),
+          //buidSearch(),
+          //buildProductFilterMenu(),
           buildShoppingCartIcon(),
         ],
-        // centerTitle: true,
+        centerTitle: true,
       ),
       drawer: const AppDrawer(),
       body: FutureBuilder(
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Center(
                         child: GestureDetector(
                           onLongPress: () => _setIndex(0),
-                          child: const SearchScreen(),
+                          //  child: const SearchScreen(),
                         ),
                       ),
                     ],
