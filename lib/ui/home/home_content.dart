@@ -40,32 +40,34 @@ class HomeContent extends StatelessWidget {
   }
 
   Widget myCarousel() {
-    return Consumer<ProductsManager>(
-      builder: (ctx, productsManager, child) {
-        return CarouselSlider.builder(
-          options: CarouselOptions(
-              height: 400.0,
-              aspectRatio: 2.0,
-              viewportFraction: 0.8,
-              initialPage: 1,
-              enableInfiniteScroll: true,
-              reverse: false,
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 3),
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage: true,
-              enlargeFactor: 0.3,
-              // onPageChanged: callbackFunction,
-              scrollDirection: Axis.horizontal),
-          itemCount: productsManager.itemCount,
-          itemBuilder: (ctx, i, int pageViewIndex) => Column(children: [
-            ProductItem(
-              productsManager.items[i],
-            ),
-          ]),
-        );
-      },
+    return SingleChildScrollView(
+      child: Consumer<ProductsManager>(
+        builder: (ctx, productsManager, child) {
+          return CarouselSlider.builder(
+            options: CarouselOptions(
+                height: 400.0,
+                aspectRatio: 2.0,
+                viewportFraction: 0.8,
+                initialPage: 1,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
+                enlargeFactor: 0.3,
+                // onPageChanged: callbackFunction,
+                scrollDirection: Axis.horizontal),
+            itemCount: productsManager.itemCount,
+            itemBuilder: (ctx, i, int pageViewIndex) => Column(children: [
+              ProductItem(
+                productsManager.items[i],
+              ),
+            ]),
+          );
+        },
+      ),
     );
   }
 }

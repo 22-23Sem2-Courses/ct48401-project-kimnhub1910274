@@ -14,60 +14,91 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final controller = TextEditingController();
-  List<Product> products = [];
+  TextEditingController controller = TextEditingController();
 
-  //static List<Product> all;
+  @override
+  void initState() {
+    // products = context.select<ProductsManager, List<Product>>(
+    //     (productsManager) => productsManager.items);
+    // all = List.from(products);
+    super.initState();
+  }
+
+  void updateList(String value) {
+    List results = [];
+    // final sug = all.where((product) {
+    //   final title = product.title.toLowerCase();
+    //   final input = value.toLowerCase();
+    //   return title.contains(input);
+    // }).toList();
+    if (value.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      //    results = products;
+    } else {
+      // results = products
+      //     .where((product) =>
+      //         product.title.toLowerCase().contains(value.toLowerCase()))
+      //     .toList();
+      // print('First text field: $results');
+      // setState(() => products = results);
+    }
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // List products = context.select<ProductsManager, List<Product>>(
+    //     (productsManager) => productsManager.items);
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('Search'),
+          title: const Text('Search'),
         ),
         body: Column(
           children: <Widget>[
             Container(
                 margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                child: TextField(
+                child: TextFormField(
                   controller: controller,
+                  autofocus: true,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.search),
                       hintText: 'Search...',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: const BorderSide(color: Colors.blue))),
-                  onChanged: searchProducts,
+                  onChanged: (value) => updateList(value),
+                  // onChanged: (text) {
+                  //   print('First text field: $text');
+                  // },
                 )),
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.all(10.0),
-                itemCount: products.length,
-                itemBuilder: (ctx, i) {
-                  final product = products[i];
-                  return ListTile(
-                    leading: Image.network(product.imageUrl),
-                    title: Text(product.title),
-                  );
-                },
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  //  childAspectRatio: 3 / 2,
-                  //  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-              ),
-            )
+            // Expanded(
+            //   child: ListView.builder(
+            //     padding: const EdgeInsets.all(10.0),
+            //     itemCount: products.length,
+            //     itemBuilder:
+            //         // (ctx, i) => ProductGridTile(products[i]),
+            //         (ctx, i) {
+            //       final product = products[i];
+            //       return ListTile(
+            //         leading: Image.network(product.imageUrl),
+            //         title: Text(product.title),
+            //       );
+            //     },
+            //     // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //     //   crossAxisCount: 2,
+            //     //   //  childAspectRatio: 3 / 2,
+            //     //   //  crossAxisSpacing: 10,
+            //     //   mainAxisSpacing: 10,
+            //     // ),
+            //   ),
+            // )
           ],
         ));
-  }
-
-  void searchProducts(String query) {
-    final sug = products.where((product) {
-      final title = product.title.toLowerCase();
-      final input = query.toLowerCase();
-      return title.contains(input);
-    }).toList();
-    setState(() => products = sug);
   }
 }

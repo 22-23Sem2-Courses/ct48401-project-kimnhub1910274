@@ -64,4 +64,9 @@ class Product {
       imageUrl: json['imageUrl'],
     );
   }
+
+  // List<Product> allDdata = [
+  //   'chair'
+
+  // ];
 }

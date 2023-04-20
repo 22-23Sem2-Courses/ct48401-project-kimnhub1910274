@@ -40,6 +40,7 @@ class ProductsService extends FirebaseService {
           }).copyWith(isFavorite: isFavorite),
         );
       });
+      //print('gdgfx $products');
       return products;
     } catch (error) {
       print(error);
@@ -121,5 +122,24 @@ class ProductsService extends FirebaseService {
       print(error);
       return false;
     }
+  }
+
+  Future<List<Product>> getList() async {
+    List<Product> products = [];
+
+    final productsUrl = Uri.parse('$databaseUrl/products.json?auth=$token');
+    final response = await http.get(productsUrl);
+    final productsMap = json.decode(response.body);
+    try {
+      if (response.statusCode != 200) {
+        print(productsMap['error']);
+        products = productsMap.map((e) => Product.fromJson(e)).toList();
+      } else {
+        print('api error');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return products;
   }
 }

@@ -9,6 +9,7 @@ import '../shared/dialog_utils.dart';
 class ProductsManager with ChangeNotifier {
   List<Product> _items = [];
   final ProductsService _productsService;
+
   ProductsManager([AuthToken? authToken])
       : _productsService = ProductsService(authToken);
 
@@ -35,6 +36,11 @@ class ProductsManager with ChangeNotifier {
 
   List<Product> get items {
     return [..._items];
+  }
+
+  Future<List<Product>> getProduct() async {
+    _items = await _productsService.getList();
+    return _items;
   }
 
   List<Product> get favoriteItems {
@@ -91,4 +97,6 @@ class ProductsManager with ChangeNotifier {
       notifyListeners();
     }
   }
+
+//   Future<List<Product>> getList(Product product) async {}
 }

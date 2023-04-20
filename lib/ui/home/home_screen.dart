@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myproject_app/ui/home/home_banner.dart';
 import 'package:myproject_app/ui/home/home_content.dart';
 import 'package:myproject_app/ui/about/about_screen.dart';
+import 'package:myproject_app/ui/search/search.dart';
 import '/ui/cart/cart_screen.dart';
 import '/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,9 @@ import '../products/products_grid.dart';
 import '../cart/cart_manager.dart';
 import '../products/top_right_badge.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../search/search_screen.dart';
+//import '../search/search_screen.dart';
+import '../search/search_product.dart';
+
 import 'package:textfield_search/textfield_search.dart';
 import '../../models/product.dart';
 
@@ -45,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
     myController.dispose();
     super.dispose();
   }
@@ -71,7 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final products = context.select<ProductsManager, List<Product>>(
         (productsManager) => productsManager.products);
     Future<List> fetchData() async {
-      await Future.delayed(Duration(milliseconds: 30));
       List list = [];
       for (var i = 0; i < products.length; i++) {
         list.add(products[i].title);
@@ -90,11 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 future: () {
                   return fetchData();
                 },
-                getSelectedValue: (value) {
-                  print(
-                      value); // this prints the selected option which could be an object
-                },
-                label: 'Simple List',
+                // getSelectedValue: (value) {
+                //   print(
+                //       value); // this prints the selected option which could be an object
+                // },
+                label: 'Search',
                 controller: myController),
         // onChanged: (val) {
         //   setState(() {
@@ -103,23 +103,23 @@ class _HomeScreenState extends State<HomeScreen> {
         // },
 
         actions: <Widget>[
-          //   !searchState
-          //       ? IconButton(
-          //           onPressed: () {
-          //             setState(() {
-          //               searchState = !searchState;
-          //             });
-          //           },
-          //           icon: Icon(Icons.search))
-          //       : IconButton(
-          //           onPressed: () {
-          //             setState(() {
-          //               searchState = !searchState;
-          //             });
-          //             // return SearchScreen(ProductsManager().findByName(productId)!);
-          //           },
-          //           icon: const Icon(Icons.cancel)),
-          //buidSearch(),
+          !searchState
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      searchState = !searchState;
+                    });
+                  },
+                  icon: Icon(Icons.search))
+              : IconButton(
+                  onPressed: () {
+                    setState(() {
+                      searchState = !searchState;
+                    });
+                    // return SearchScreen(ProductsManager().findByName(productId)!);
+                  },
+                  icon: const Icon(Icons.cancel)),
+          //buildSearch(),
           //buildProductFilterMenu(),
           buildShoppingCartIcon(),
         ],
@@ -155,12 +155,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: const About(),
                         ),
                       ),
-                      Center(
-                        child: GestureDetector(
-                          onLongPress: () => _setIndex(0),
-                          child: const SearchScreen(),
-                        ),
-                      ),
+                      // Center(
+                      //   child: GestureDetector(
+                      //     onLongPress: () => _setIndex(0),
+                      //     child: const SearchScreen(),
+                      //     //child: const SearchScreen(),
+                      //   ),
+                      // ),
                     ],
                   ));
                 });
@@ -204,10 +205,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       icon: CupertinoIcons.news_solid,
                       text: 'About',
                     ),
-                    GButton(
-                      icon: CupertinoIcons.search,
-                      text: 'Search',
-                    ),
+                    // GButton(
+                    //   icon: CupertinoIcons.search,
+                    //   text: 'Search',
+                    // ),
                   ],
                   selectedIndex: _selectedIndex,
                   onTabChange: (index) {
@@ -264,11 +265,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget buidSearch() {
-  //   return IconButton(
-  //       onPressed: () {
-  //         MyApp();
-  //       },
-  //       icon: const Icon(Icons.search));
-  // }
+  Widget buildSearch() {
+    return IconButton(
+      onPressed: () => showSearch(context: context, delegate: Search()),
+      icon: Icon(Icons.search),
+    );
+  }
 }
